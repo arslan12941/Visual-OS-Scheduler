@@ -1,54 +1,99 @@
 # Visual OS Scheduler
 
-A simple educational project for simulating and visualizing CPU scheduling algorithms. This repository contains a scheduler implementation and a process generator along with sample testcases and outputs.
+An educational GUI application that simulates and visualizes CPU scheduling algorithms.
 
-**Features**
-- **Simulates**: various scheduling algorithms (implementation in [scheduler.py](scheduler.py)).
-- **Input generator**: create process inputs using [process_generator.py](process_generator.py).
-- **Testcases**: sample inputs and expected outputs in the `testcases/` folder.
+This repository contains a Tkinter-based scheduler GUI and a simple process input generator. It is intended for learning and demonstrating algorithm behavior (FCFS, HPF, RR, SRTN).
 
-**Requirements**
-- Python 3.8+ (use `python --version` to check).
-- Install dependencies from [requirements.txt](requirements.txt) if present:
+## Features
+- Simulate scheduling algorithms and visualize scheduling timelines.
+- Generate random process workloads using the provided generator.
+- Example inputs and expected outputs are included under the `Visual-OS-Scheduler/testcases/` folder.
 
-```
-python -m pip install -r requirements.txt
-```
+## Requirements
+- Python 3.8 or newer.
+- Recommended: create and use a virtual environment.
+- Install dependencies (GUI folder requirements):
 
-**Repository layout**
-- [scheduler.py](scheduler.py) — main scheduler program.
-- [process_generator.py](process_generator.py) — optional input generator.
-- `Out.txt`, `output.txt` — example output files produced by the programs.
-- `testcases/` — contains sample inputs and expected outputs.
-
-**Quick Usage**
-
-1. (Optional) Generate input samples:
-
-```
-python process_generator.py
+```bash
+python -m pip install -r "Visual-OS-Scheduler/requirements.txt"
 ```
 
-2. Run the scheduler. Depending on how `scheduler.py` is implemented it may read from a file or stdin. Common ways to run:
+## Repository layout
+- `Visual-OS-Scheduler/scheduler.py` — main scheduler GUI program.
+- `Visual-OS-Scheduler/process_generator.py` — simple process generator that writes a compatible `output.txt`.
+- `Visual-OS-Scheduler/output.txt`, `Visual-OS-Scheduler/Out.txt` — example outputs.
+- `Visual-OS-Scheduler/testcases/` — sample inputs and expected outputs.
+
+## Quick start (GUI)
+1. Install dependencies (see above).
+2. Run the scheduler GUI:
+
+```bash
+python "Visual-OS-Scheduler/scheduler.py"
+```
+
+3. In the GUI:
+- Click **Select Input File** and choose a plain-text process file (format described below).
+- Set **Context Switch Time** and **Quantum Time** as needed.
+- Choose an algorithm from the dropdown (`HPF`, `FCFS`, `RR`, `SRTN`).
+- Click **Show/Update Graph** to render the schedule.
+- Click **Wirte File** to save results to the filename shown (default `Out.txt`).
+
+No stdin redirection is required—the GUI reads the selected file.
+
+## Input file format
+The GUI accepts a simple whitespace-delimited format. Either of the following is supported:
+
+- With process count on the first line:
 
 ```
-python scheduler.py
-# or, if it reads from a file:
-python scheduler.py testcases/schdinput.txt
-# or via stdin redirection:
-python scheduler.py < testcases/schdinput.txt > output.txt
+<process_count>
+<pid> <arrival_time> <run_time> <priority>
+<pid> <arrival_time> <run_time> <priority>
+...
 ```
 
-3. Check outputs in `output.txt` or `Out.txt`, or the printed console output.
+- Or omit the count and list processes directly:
 
-**Testcases & Samples**
-- Use the files in `testcases/Generator Samples/` and `testcases/Scheduler Samples/` to validate behavior.
-- Compare generated output with `testcases/Scheduler Samples/` expected outputs (e.g., `FCFSout.txt`, `RRout.txt`).
+```
+<pid> <arrival_time> <run_time> <priority>
+<pid> <arrival_time> <run_time> <priority>
+```
 
-**Notes & Troubleshooting**
-- If `scheduler.py` expects command-line arguments, open the file to see its expected parameters and adapt the commands above accordingly.
-- If you see missing dependencies, install them via `pip` and retry.
+Example:
 
-**Next steps**
-- Run the scheduler with a sample input to confirm outputs.
-- Add example command-line argument documentation inside `scheduler.py` or this README after confirming its interface.
+```
+3
+1 0.0 4.0 2
+2 1.5 2.0 1
+3 3.0 1.0 3
+```
+
+`process_generator.py` creates a compatible `output.txt` when given a generator-spec input (first line: process count; second line: mu_arr sigma_arr; third: mu_run sigma_run; fourth: lambda for priority sampling).
+
+## Outputs
+- The GUI writes a tabular summary to the output filename (default `Out.txt`) showing waiting time, turnaround time, and weighted turnaround time per process, plus averages.
+- A visual timeline is shown inside the application window.
+
+## Testcases
+Use the files under `Visual-OS-Scheduler/testcases/` to validate behavior and compare against expected outputs in `Visual-OS-Scheduler/testcases/Scheduler Samples/`.
+
+## Troubleshooting
+- If the GUI fails to start, ensure `tkinter` is available on your Python installation (commonly included with standard CPython on Windows).
+- If plotting fails, confirm `matplotlib` and `numpy` are installed.
+
+## Contributing
+If you plan to publish this repository on GitHub, consider adding a short `CONTRIBUTING.md` and a license. Pull requests and improvements to the visualization or algorithm implementations are welcome.
+
+---
+If you want, I can also: add a short example input file under the repo root, add a `LICENSE` file, or create a minimal `CONTRIBUTING.md` before you push to GitHub.
+
+## Included example
+An example input file is provided for quick testing:
+
+- `Visual-OS-Scheduler/testcases/example_input.txt` — a 3-process sample compatible with the GUI.
+
+Run the GUI and open this file via **Select Input File** to see the scheduler behavior.
+
+## License
+This project is available under the MIT License — see [LICENSE](LICENSE).
