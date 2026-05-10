@@ -52,6 +52,3 @@ python scheduler.py < testcases/schdinput.txt > output.txt
 **Next steps**
 - Run the scheduler with a sample input to confirm outputs.
 - Add example command-line argument documentation inside `scheduler.py` or this README after confirming its interface.
-
----
-If you want, I can run a quick inspection of `scheduler.py` to extract exact command-line flags and update this README with precise run examples.
